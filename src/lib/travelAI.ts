@@ -1,11 +1,25 @@
-import OpenAI from "openai";
+// ─── AI Client Helper (Server-side Proxy for Vercel) ─────────────────────────
 
-// ─── OpenAI Client ─────────────────────────────────────────────────────────────
+async function fetchAI(params: {
+  messages: any[];
+  response_format?: { type: "json_object" };
+  temperature?: number;
+}) {
+  const response = await fetch("/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  });
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to fetch from AI API");
+  }
+
+  return await response.json();
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -80,8 +94,7 @@ export async function parseUserRequest(userMessage: string): Promise<ParsedTripR
   futureReturn.setDate(future.getDate() + 7);
   const futureReturnStr = futureReturn.toISOString().split("T")[0];
 
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+  const data = await fetchAI({
     messages: [
       {
         role: "system",
@@ -103,14 +116,13 @@ Fields: origin (city or airport code), destination (city or airport code), depar
     temperature: 0.2,
   });
 
-  return JSON.parse(completion.choices[0].message.content || "{}") as ParsedTripRequest;
+  return JSON.parse(data.content || "{}") as ParsedTripRequest;
 }
 
 // ─── Step 2: Search flights with ChatGPT ──────────────────────────────────────
 
 export async function searchFlights(request: ParsedTripRequest): Promise<FlightResult[]> {
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+  const data = await fetchAI({
     messages: [
       {
         role: "system",
@@ -144,15 +156,14 @@ Preferences: ${request.preferences.join(", ") || "none"}`,
     temperature: 0.75,
   });
 
-  const data = JSON.parse(completion.choices[0].message.content || "{}");
-  return (data.flights || []) as FlightResult[];
+  const parsed = JSON.parse(data.content || "{}");
+  return (parsed.flights || []) as FlightResult[];
 }
 
 // ─── Step 3: Search hotels with ChatGPT ───────────────────────────────────────
 
 export async function searchHotels(request: ParsedTripRequest): Promise<HotelResult[]> {
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+  const data = await fetchAI({
     messages: [
       {
         role: "system",
@@ -181,8 +192,8 @@ Preferences: ${request.preferences.join(", ") || "none"}`,
     temperature: 0.75,
   });
 
-  const data = JSON.parse(completion.choices[0].message.content || "{}");
-  return (data.hotels || []) as HotelResult[];
+  const parsed = JSON.parse(data.content || "{}");
+  return (parsed.hotels || []) as HotelResult[];
 }
 
 // ─── Step 4: Bedrock Simulation — picks cheapest best-value combo ─────────────
@@ -223,8 +234,7 @@ export async function simulateBedrockOptimization(
   }
 
   // ChatGPT picks the cheapest best-value flight + hotel
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+  const data = await fetchAI({
     messages: [
       {
         role: "system",
@@ -257,7 +267,7 @@ Pick the CHEAPEST total combo.`,
     temperature: 0.1,
   });
 
-  const result = JSON.parse(completion.choices[0].message.content || "{}");
+  const result = JSON.parse(data.content || "{}");
 
   const bestFlight = flights.find((f) => f.id === result.bestFlightId) || flights.reduce((a, b) => a.price < b.price ? a : b);
   const bestHotel = hotels.find((h) => h.id === result.bestHotelId) || hotels.reduce((a, b) => a.pricePerNight < b.pricePerNight ? a : b);
