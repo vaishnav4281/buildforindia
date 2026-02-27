@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* WhatsApp-inspired color system */
+    --background: 0 0% 93%;
+    --foreground: 0 0% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 142 72% 29%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 0 0% 88%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 142 72% 29%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 142 72% 29%;
+
+    --radius: 8px;
+
+    /* WhatsApp tokens */
+    --wa-green: 142 53% 40%;
+    --wa-green-dark: 142 60% 25%;
+    --wa-green-light: 142 53% 94%;
+    --wa-teal: 171 100% 25%;
+    --wa-bg: 190 20% 87%;
+    --wa-chat-bg: 198 17% 15%;
+    --wa-bubble-out: 142 53% 40%;
+    --wa-bubble-in: 0 0% 100%;
+    --wa-header: 142 60% 22%;
+    --wa-input-bg: 0 0% 100%;
+    --wa-tick: 199 100% 58%;
+
+    --font-display: 'Space Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+
+    /* Neo-brut tokens (kept for compatibility) */
+    --brutal-border: 2px solid hsl(0 0% 5%);
+    --brutal-border-thick: 3px solid hsl(0 0% 5%);
+    --brutal-shadow: 4px 4px 0px hsl(0 0% 5%);
+    --brutal-shadow-lg: 6px 6px 0px hsl(0 0% 5%);
+    --brutal-shadow-accent: 4px 4px 0px hsl(142 53% 40%);
+    --brutal-shadow-hover: 6px 6px 0px hsl(142 53% 40%);
+
+    --yellow: 45 100% 60%;
+    --yellow-light: 48 100% 85%;
+    --lime: 142 53% 40%;
+    --lime-light: 142 53% 94%;
+    --sky-neo: 199 100% 50%;
+    --sky-neo-light: 199 100% 92%;
+    --coral: 10 90% 62%;
+    --coral-light: 10 80% 92%;
+  }
+
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 60 10% 95%;
+    --card: 195 14% 15%;
+    --card-foreground: 60 10% 95%;
+    --popover: 195 14% 15%;
+    --popover-foreground: 60 10% 95%;
+    --primary: 142 53% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 195 14% 20%;
+    --secondary-foreground: 60 10% 95%;
+    --muted: 195 14% 20%;
+    --muted-foreground: 0 0% 55%;
+    --accent: 142 53% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 195 14% 22%;
+    --input: 195 14% 22%;
+    --ring: 142 53% 40%;
+
+    --wa-bg: 198 17% 15%;
+    --wa-bubble-out: 0 0% 19%;
+    --wa-bubble-in: 195 14% 22%;
+    --wa-header: 195 14% 12%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-body);
+  }
+}
+
+/* WhatsApp Background Pattern */
+.wa-bg-pattern {
+  background-color: hsl(var(--wa-bg));
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dark .wa-bg-pattern {
+  background-color: hsl(var(--wa-bg));
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M30 0l30 30-30 30L0 30z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* WhatsApp Bubble Tails */
+.wa-tail-out::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 12px 12px;
+  border-color: transparent transparent hsl(142 53% 40%) transparent;
+}
+
+.wa-tail-in::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 12px 12px 0;
+  border-color: transparent white transparent transparent;
+}
+
+.dark .wa-tail-in::before {
+  border-color: transparent hsl(195 14% 22%) transparent transparent;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 2px;
+}
+
+/* Utility classes */
+@layer utilities {
+  .brutal-border {
+    border: var(--brutal-border);
+  }
+  .brutal-border-thick {
+    border: var(--brutal-border-thick);
+  }
+  .brutal-shadow {
+    box-shadow: var(--brutal-shadow);
+  }
+  .brutal-shadow-lg {
+    box-shadow: var(--brutal-shadow-lg);
+  }
+  .brutal-shadow-accent {
+    box-shadow: var(--brutal-shadow-accent);
+  }
+  .brutal-shadow-hover {
+    box-shadow: var(--brutal-shadow-hover);
+  }
+  .bg-yellow {
+    background-color: hsl(var(--yellow));
+  }
+  .bg-yellow-light {
+    background-color: hsl(var(--yellow-light));
+  }
+  .bg-lime {
+    background-color: hsl(var(--lime));
+  }
+  .bg-lime-light {
+    background-color: hsl(var(--lime-light));
+  }
+  .bg-sky-neo {
+    background-color: hsl(var(--sky-neo));
+  }
+  .bg-sky-neo-light {
+    background-color: hsl(var(--sky-neo-light));
+  }
+  .bg-coral {
+    background-color: hsl(var(--coral));
+  }
+  .bg-coral-light {
+    background-color: hsl(var(--coral-light));
+  }
+  .text-yellow {
+    color: hsl(var(--yellow));
+  }
+  .bg-wa-green {
+    background-color: hsl(var(--wa-green));
+  }
+  .bg-wa-header {
+    background-color: hsl(var(--wa-header));
+  }
+  .text-wa-tick {
+    color: hsl(var(--wa-tick));
+  }
+
+  /* Animate pulse dot */
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .animate-pulse-dot {
+    animation: pulse-dot 1.4s ease-in-out infinite;
+  }
+
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-8px); opacity: 1; }
+  }
+  .animate-typing {
+    animation: typing 1.4s ease-in-out infinite;
+  }
+}
