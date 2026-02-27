@@ -19,9 +19,8 @@ const HotelCard = ({ hotel, index, onSelect, recommended }: { hotel: HotelOption
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08 }}
       onClick={() => onSelect(hotel.id)}
-      className={`brutal-border overflow-hidden cursor-pointer transition-all hover:brutal-shadow-accent ${
-        recommended ? "bg-yellow-light brutal-shadow" : hotel.selected ? "bg-lime-light brutal-shadow" : "bg-card"
-      }`}
+      className={`brutal-border overflow-hidden cursor-pointer transition-all hover:brutal-shadow-accent ${recommended ? "bg-yellow-light brutal-shadow" : hotel.selected ? "bg-lime-light brutal-shadow" : "bg-card"
+        }`}
     >
       <div className="h-24 bg-muted flex items-center justify-center relative border-b-2 border-foreground">
         {hotel.image ? (
@@ -52,7 +51,7 @@ const HotelCard = ({ hotel, index, onSelect, recommended }: { hotel: HotelOption
           ))}
         </div>
         <p className="text-right">
-          <span className="font-display text-sm font-bold">${hotel.pricePerNight}</span>
+          <span className="font-display text-sm font-bold">₹{hotel.pricePerNight.toLocaleString('en-IN')}</span>
           <span className="text-[9px] font-display text-muted-foreground">/night</span>
         </p>
       </div>

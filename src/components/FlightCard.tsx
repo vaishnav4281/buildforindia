@@ -21,9 +21,8 @@ const FlightCard = ({ flight, index, onSelect, recommended }: { flight: FlightOp
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.08 }}
       onClick={() => onSelect(flight.id)}
-      className={`brutal-border p-3 cursor-pointer transition-all hover:brutal-shadow-accent ${
-        recommended ? "bg-yellow-light brutal-shadow" : flight.selected ? "bg-lime-light brutal-shadow" : "bg-card"
-      }`}
+      className={`brutal-border p-3 cursor-pointer transition-all hover:brutal-shadow-accent ${recommended ? "bg-yellow-light brutal-shadow" : flight.selected ? "bg-lime-light brutal-shadow" : "bg-card"
+        }`}
     >
       {recommended && (
         <div className="bg-yellow brutal-border px-2 py-0.5 text-[9px] font-display font-bold uppercase tracking-wider inline-block mb-2">
@@ -37,7 +36,7 @@ const FlightCard = ({ flight, index, onSelect, recommended }: { flight: FlightOp
           </div>
           <span className="font-display text-xs font-bold uppercase">{flight.airline}</span>
         </div>
-        <span className="font-display text-lg font-bold">${flight.price}</span>
+        <span className="font-display text-lg font-bold">₹{flight.price.toLocaleString('en-IN')}</span>
       </div>
 
       <div className="flex items-center justify-between">

@@ -4,7 +4,7 @@ import {
   Plane,
   Building2,
   Calendar,
-  DollarSign,
+  IndianRupee,
   X,
   Download,
   Share2,
@@ -115,7 +115,7 @@ const BookingConfirmation = ({
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-[18px] font-black text-[hsl(142,53%,35%)]">${flight.price}</p>
+                <p className="text-[18px] font-black text-[hsl(142,53%,35%)]">₹{flight.price.toLocaleString('en-IN')}</p>
                 <p className="text-[10px] text-gray-400">per person</p>
               </div>
             </div>
@@ -147,11 +147,11 @@ const BookingConfirmation = ({
                 </div>
                 <div className="flex items-center gap-2 mt-1 text-[11px] text-gray-400">
                   <Calendar className="w-3 h-3" />
-                  <span>{nights} nights × ${hotel.pricePerNight}/night</span>
+                  <span>{nights} nights × ₹{hotel.pricePerNight.toLocaleString('en-IN')}/night</span>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-[18px] font-black text-[hsl(142,53%,35%)]">${hotel.pricePerNight * nights}</p>
+                <p className="text-[18px] font-black text-[hsl(142,53%,35%)]">₹{(hotel.pricePerNight * nights).toLocaleString('en-IN')}</p>
                 <p className="text-[10px] text-gray-400">{nights} nights</p>
               </div>
             </div>
@@ -161,13 +161,13 @@ const BookingConfirmation = ({
           <div className="px-5 py-4 bg-[hsl(142,53%,40%)]/5 dark:bg-[hsl(142,53%,40%)]/10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-[hsl(142,53%,35%)]" />
+                <IndianRupee className="w-5 h-5 text-[hsl(142,53%,35%)]" />
                 <div>
                   <p className="font-bold text-gray-800 dark:text-gray-100 text-[15px]">Total Paid</p>
                   <p className="text-[10px] text-gray-400">Flight + {nights} nights hotel</p>
                 </div>
               </div>
-              <p className="text-[24px] font-black text-[hsl(142,53%,35%)]">${totalCost.toLocaleString()}</p>
+              <p className="text-[24px] font-black text-[hsl(142,53%,35%)]">₹{totalCost.toLocaleString('en-IN')}</p>
             </div>
           </div>
         </div>

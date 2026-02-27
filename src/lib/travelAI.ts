@@ -103,12 +103,12 @@ Default values if not specified:
 - departureDate: "${futureStr}"
 - returnDate: "${futureReturnStr}"  
 - nights: 7
-- flightBudget: 800
-- hotelBudgetPerNight: 150
+- flightBudget: 50000
+- hotelBudgetPerNight: 8000
 - travelers: 1
 - preferences: []
 
-Fields: origin (city or airport code), destination (city or airport code), departureDate (YYYY-MM-DD), returnDate (YYYY-MM-DD), nights (integer), flightBudget (number, USD), hotelBudgetPerNight (number, USD), travelers (integer), preferences (array of strings like "non-stop", "luxury", "budget", "beach", "family")`,
+Fields: origin (city or airport code), destination (city or airport code), departureDate (YYYY-MM-DD), returnDate (YYYY-MM-DD), nights (integer), flightBudget (number, INR), hotelBudgetPerNight (number, INR), travelers (integer), preferences (array of strings like "non-stop", "luxury", "budget", "beach", "family")`,
       },
       { role: "user", content: userMessage },
     ],
@@ -135,7 +135,7 @@ Each flight must have:
 - departureTime: "HH:MM"
 - arrivalTime: "HH:MM"
 - duration: e.g. "8h 45m"
-- price: USD number (vary: one near budget, one 15% below, one 10% above)
+- price: INR number (vary: one near budget, one 15% below, one 10% above)
 - stops: 0 or 1
 - aircraft: e.g. "Boeing 777-300ER"
 - amenities: 3-4 items like ["WiFi", "USB Charging", "Meals included"]
@@ -147,7 +147,7 @@ Make one non-stop premium, one budget with 1 stop, one mid-range non-stop.`,
         role: "user",
         content: `Route: ${request.origin} → ${request.destination}
 Departure: ${request.departureDate}, Return: ${request.returnDate}
-Budget: $${request.flightBudget} per person
+Budget: ₹${request.flightBudget} per person
 Travelers: ${request.travelers}
 Preferences: ${request.preferences.join(", ") || "none"}`,
       },
@@ -173,7 +173,7 @@ Each hotel must have:
 - name: real or highly realistic hotel name for this city
 - rating: 3.6 to 5.0
 - location: specific neighborhood/area
-- pricePerNight: USD (one budget 30% below budget, one at budget, one luxury 40% above)
+- pricePerNight: INR (one budget 30% below budget, one at budget, one luxury 40% above)
 - amenities: 4-6 items like ["Pool", "Spa", "Free Breakfast", "Gym", "Airport Shuttle"]
 - description: 1-2 sentences about the property
 - distanceFromCenter: e.g. "1.2 km from city center"
@@ -183,7 +183,7 @@ Each hotel must have:
         role: "user",
         content: `Destination: ${request.destination}
 Dates: ${request.departureDate} to ${request.returnDate} (${request.nights} nights)
-Budget: $${request.hotelBudgetPerNight} per night
+Budget: ₹${request.hotelBudgetPerNight} per night
 Guests: ${request.travelers}
 Preferences: ${request.preferences.join(", ") || "none"}`,
       },
@@ -246,7 +246,7 @@ Return ONLY valid JSON:
   "bestFlightId": "f1 or f2 or f3",
   "bestHotelId": "h1 or h2 or h3",
   "totalCost": <number>,
-  "reasoning": "One sentence on why this is the best cheapest combo.",
+  "reasoning": "One sentence on why this is the best cheapest combo in INR.",
   "tips": ["practical tip 1", "practical tip 2", "practical tip 3"]
 }`,
       },
@@ -255,10 +255,10 @@ Return ONLY valid JSON:
         content: `Route: ${request.origin} → ${request.destination} · ${request.nights} nights · ${request.travelers} traveler(s)
 
 FLIGHTS:
-${flights.map((f) => `[${f.id}] ${f.airline} $${f.price} ${f.stops === 0 ? "non-stop" : f.stops + " stop"} ${f.duration}`).join("\n")}
+${flights.map((f) => `[${f.id}] ${f.airline} ₹${f.price} ${f.stops === 0 ? "non-stop" : f.stops + " stop"} ${f.duration}`).join("\n")}
 
 HOTELS:
-${hotels.map((h) => `[${h.id}] ${h.name} $${h.pricePerNight}/night ★${h.rating} → ${request.nights} nights = $${h.pricePerNight * request.nights}`).join("\n")}
+${hotels.map((h) => `[${h.id}] ${h.name} ₹${h.pricePerNight}/night ★${h.rating} → ${request.nights} nights = ₹${h.pricePerNight * request.nights}`).join("\n")}
 
 Pick the CHEAPEST total combo.`,
       },
@@ -308,7 +308,7 @@ export async function simulateBooking(
     { label: "🔐 Securing payment gateway...", detail: "256-bit SSL encryption active", duration: 700 },
     { label: "✈️ Reserving flight seats...", detail: `Contacting ${plan.bestFlight.airline} reservation system`, duration: 1200 },
     { label: "🏨 Holding hotel room...", detail: `Confirming ${plan.bestHotel.name} availability`, duration: 1000 },
-    { label: "💳 Processing payment...", detail: `Charging $${plan.totalCost.toLocaleString()}`, duration: 1500 },
+    { label: "💳 Processing payment...", detail: `Charging ₹${plan.totalCost.toLocaleString('en-IN')}`, duration: 1500 },
     { label: "📧 Sending confirmation emails...", detail: "Emailing itinerary and e-tickets", duration: 600 },
     { label: "✅ Booking finalized!", detail: "All confirmations secured", duration: 400 },
   ];
@@ -334,7 +334,7 @@ export async function orchestrateTravelSearch(
   // Step 1: Planner (ChatGPT)
   onAgentUpdate("planner", "active", "Parsing your travel request...");
   const parsedRequest = await parseUserRequest(userMessage);
-  onAgentUpdate("planner", "done", `${parsedRequest.origin} → ${parsedRequest.destination} · ${parsedRequest.nights} nights · $${parsedRequest.flightBudget} flight budget`);
+  onAgentUpdate("planner", "done", `${parsedRequest.origin} → ${parsedRequest.destination} · ${parsedRequest.nights} nights · ₹${parsedRequest.flightBudget.toLocaleString('en-IN')} flight budget`);
 
   // Step 2: Flights (ChatGPT)
   onAgentUpdate("flight", "active", "Searching live flight inventory...");

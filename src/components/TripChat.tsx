@@ -116,10 +116,10 @@ const AgentPipeline = ({
               key={a.id}
               animate={{ scale: isActive ? 1.08 : 1 }}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold transition-colors ${isDone
-                  ? "bg-[hsl(142,53%,40%)] text-white"
-                  : isActive
-                    ? "text-white shadow-lg"
-                    : "bg-gray-100 dark:bg-gray-800 text-gray-400"
+                ? "bg-[hsl(142,53%,40%)] text-white"
+                : isActive
+                  ? "text-white shadow-lg"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-400"
                 }`}
               style={isActive ? { backgroundColor: a.color } : undefined}
             >
@@ -194,7 +194,7 @@ const FlightCard = ({
           </div>
         </div>
         <div className="text-right">
-          <p className="text-[18px] font-extrabold text-[hsl(142,53%,35%)]">${flight.price}</p>
+          <p className="text-[18px] font-extrabold text-[hsl(142,53%,35%)]">₹{flight.price.toLocaleString('en-IN')}</p>
           <p className="text-[9px] text-gray-400">per person</p>
         </div>
       </div>
@@ -254,7 +254,7 @@ const HotelCard = ({
           </div>
         </div>
         <div className="text-right flex-shrink-0">
-          <p className="text-[18px] font-extrabold text-[hsl(142,53%,35%)]">${hotel.pricePerNight}</p>
+          <p className="text-[18px] font-extrabold text-[hsl(142,53%,35%)]">₹{hotel.pricePerNight.toLocaleString('en-IN')}</p>
           <p className="text-[9px] text-gray-400">per night</p>
         </div>
       </div>
@@ -378,7 +378,7 @@ export default function TripChat({ onBack }: TripChatProps) {
       id: "welcome",
       role: "assistant",
       content:
-        "✈️ Hey! I'm *TravelGenie* — your fully autonomous AI travel agent!\n\nHow it works:\n1️⃣ You tell me where & when\n2️⃣ *ChatGPT* searches real flights & hotels\n3️⃣ *AWS Bedrock AI* picks the cheapest best-value combo\n4️⃣ I *auto-book it for you* — no confirmation needed!\n\n*Example:* \"NYC to Dubai, March 15-22, $800 flight budget, $200/night hotel\"\n\nJust chat naturally and I'll handle everything! 🚀",
+        "✈️ Hey! I'm *TravelGenie* — your fully autonomous AI travel agent!\n\nHow it works:\n1️⃣ You tell me where & when\n2️⃣ *ChatGPT* searches real flights & hotels\n3️⃣ *AWS Bedrock AI* picks the cheapest best-value combo\n4️⃣ I *auto-book it for you* — no confirmation needed!\n\n*Example:* \"NYC to Dubai, March 15-22, ₹60,000 flight budget, ₹15,000/night hotel\"\n\nJust chat naturally and I'll handle everything! 🚀",
       timestamp: new Date(),
       status: "read",
     },
@@ -459,7 +459,7 @@ export default function TripChat({ onBack }: TripChatProps) {
     setBookingSteps([]);
 
     addMsg(
-      `⚡ *Bedrock AI selected the cheapest combo!*\n\n✈️ *${readyPlan.bestFlight.airline}* — $${readyPlan.bestFlight.price}\n🏨 *${readyPlan.bestHotel.name}* — $${readyPlan.bestHotel.pricePerNight}/night\n💰 *Total: $${readyPlan.totalCost.toLocaleString()}*${readyPlan.savingsVsAlternative > 0 ? `\n💸 Saves you $${readyPlan.savingsVsAlternative} vs priciest options!` : ""}\n\n🤖 Booking agent is processing now...`
+      `⚡ *Bedrock AI selected the cheapest combo!*\n\n✈️ *${readyPlan.bestFlight.airline}* — ₹${readyPlan.bestFlight.price.toLocaleString('en-IN')}\n🏨 *${readyPlan.bestHotel.name}* — ₹${readyPlan.bestHotel.pricePerNight.toLocaleString('en-IN')}/night\n💰 *Total: ₹${readyPlan.totalCost.toLocaleString('en-IN')}*${readyPlan.savingsVsAlternative > 0 ? `\n💸 Saves you ₹${readyPlan.savingsVsAlternative.toLocaleString('en-IN')} vs priciest options!` : ""}\n\n🤖 Booking agent is processing now...`
     );
 
     try {
@@ -473,7 +473,7 @@ export default function TripChat({ onBack }: TripChatProps) {
       setCurrentStep("");
 
       addMsg(
-        `🎉 *Trip Booked Successfully!*\n\n✅ Everything is confirmed!\n\n✈️ *${readyPlan.bestFlight.airline}* · ${readyPlan.bestFlight.departure} → ${readyPlan.bestFlight.arrival}\n   Departs ${readyPlan.bestFlight.departureTime} · Arrives ${readyPlan.bestFlight.arrivalTime}\n   ${readyPlan.bestFlight.stops === 0 ? "✅ Non-stop" : `🔄 ${readyPlan.bestFlight.stops} stop`}\n\n🏨 *${readyPlan.bestHotel.name}*\n   ${readyPlan.bestHotel.location} · ${readyPlan.parsedRequest.nights} nights\n\n💳 Charged: *$${readyPlan.totalCost.toLocaleString()}*\n📋 Ref: *${readyPlan.bookingRef}*\n\n📧 Confirmation emailed! Have an amazing trip! 🌍✨`
+        `🎉 *Trip Booked Successfully!*\n\n✅ Everything is confirmed!\n\n✈️ *${readyPlan.bestFlight.airline}* · ${readyPlan.bestFlight.departure} → ${readyPlan.bestFlight.arrival}\n   Departs ${readyPlan.bestFlight.departureTime} · Arrives ${readyPlan.bestFlight.arrivalTime}\n   ${readyPlan.bestFlight.stops === 0 ? "✅ Non-stop" : `🔄 ${readyPlan.bestFlight.stops} stop`}\n\n🏨 *${readyPlan.bestHotel.name}*\n   ${readyPlan.bestHotel.location} · ${readyPlan.parsedRequest.nights} nights\n\n💳 Charged: *₹${readyPlan.totalCost.toLocaleString('en-IN')}*\n📋 Ref: *${readyPlan.bookingRef}*\n\n📧 Confirmation emailed! Have an amazing trip! 🌍✨`
       );
 
       setIsBooked(true);
@@ -546,7 +546,7 @@ export default function TripChat({ onBack }: TripChatProps) {
       addMsg(
         `❌ *Error:* ${isKeyError
           ? "Invalid or missing OpenAI API key.\n\n🔑 Add your key to the `.env` file:\n`VITE_OPENAI_API_KEY=sk-your-key`\n\nThen restart the dev server."
-          : "Something went wrong. Try a clearer travel request like: \"NYC to Paris, April 1-10, $900 budget\""
+          : "Something went wrong. Try a clearer travel request like: \"NYC to Paris, April 1-10, ₹70,000 budget\""
         }`
       );
     } finally {
