@@ -1,73 +1,209 @@
-# Welcome to your Lovable project
+# ✈️ BuildForIndia — Agentic AI Travel Optimizer
 
-## Project info
+**Hotels + Flights Best-Value Booking Assistant**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## 👥 Team Cicada
 
-There are several ways of editing your application.
+- **Vaishnav K** – Team Leader  
+- **Hadi**  
+- **Riyan**
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 🚀 Project Overview
 
-Changes made via Lovable will be committed automatically to this repo.
+BuildForIndia is an **Agentic AI-powered travel booking assistant** that intelligently analyzes flights and hotels, simulates dynamic pricing, and recommends the best-value combination based on user preferences.
 
-**Use your preferred IDE**
+Unlike traditional booking platforms that overwhelm users with options, this system:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Understands user intent via conversation  
+- Evaluates multiple flight and hotel options  
+- Runs dynamic pricing simulation  
+- Calculates a value score  
+- Recommends the optimal combination  
+- Validates with the user before confirmation  
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🎯 Problem Statement
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Travel platforms:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- Show too many options  
+- Use surge pricing without transparency  
+- Don’t explain why one option is better  
 
-# Step 3: Install the necessary dependencies.
-npm i
+Users struggle to balance:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+- Price  
+- Comfort  
+- Timing  
+- Demand fluctuations  
+
+BuildForIndia solves this using **Agentic AI reasoning** and transparent pricing simulation.
+
+---
+
+## 🤖 How It Works
+
+### 1️⃣ Intent Extraction
+
+The AI extracts:
+
+- Source  
+- Destination  
+- Travel dates  
+- Budget  
+- Comfort preference  
+- Time preference  
+
+---
+
+### 2️⃣ Multi-Option Retrieval
+
+The system gathers multiple:
+
+- ✈️ Flight options  
+- 🏨 Hotel options  
+
+---
+
+### 3️⃣ Dynamic Pricing Simulation
+
+Prices are adjusted based on:
+
+- Demand surge  
+- Occupancy level  
+- Seasonal factors  
+- Competitor pricing simulation  
+
+Example:
+
+| Option    | Base Price | Demand Level | Final Price |
+|-----------|------------|--------------|------------|
+| Flight A  | ₹6,500     | High         | ₹7,400     |
+| Flight B  | ₹6,800     | Low          | ₹6,600     |
+| Hotel A   | ₹3,000     | High         | ₹3,600     |
+| Hotel B   | ₹2,800     | Medium       | ₹2,950     |
+
+---
+
+### 4️⃣ AI Value Scoring Engine
+
 ```
 
-**Edit a file directly in GitHub**
+Value Score =
+(Price Efficiency × 40%) +
+(Comfort Rating × 20%) +
+(Time Convenience × 20%) +
+(Demand Stability × 20%)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
 
-**Use GitHub Codespaces**
+The AI selects the best overall combination — not just the cheapest.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+### 5️⃣ Recommendation + Validation
 
-This project is built with:
+The assistant presents:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- Recommended flight  
+- Recommended hotel  
+- Total cost  
+- Value score  
+- Reason for selection  
 
-## How can I deploy this project?
+User confirms before booking is finalized.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## 🧠 Agentic AI Architecture
 
-Yes, you can!
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+User
+↓
+Intent Detection (LLM)
+↓
+Flight Agent
+↓
+Hotel Agent
+↓
+Dynamic Pricing Engine
+↓
+Value Scoring Engine
+↓
+Recommendation Agent
+↓
+User Validation
+↓
+Booking Confirmation
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```
+
+---
+
+## ✨ Key Features
+
+- Agentic multi-step reasoning  
+- Dynamic pricing simulation  
+- Best-value recommendation system  
+- Transparent price explanation  
+- WhatsApp-style conversational UI  
+- Structured booking confirmation  
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** Next.js / React  
+- **Backend:** Node.js / Express  
+- **AI Model:** OpenAI API / Mistral / TinyLlama  
+- **Agent Framework:** Planner–Executor model  
+- **Deployment:** Vercel  
+
+---
+
+## 📊 Example Output
+
+```
+
+✈️ Recommended Flight: FlyNow
+Price: ₹6,600
+Reason: Low demand discount + Optimal duration
+
+🏨 Recommended Hotel: Comfort Inn
+Price: ₹2,950
+Reason: Balanced occupancy + 4.2⭐ rating
+
+💰 Total Trip Cost: ₹9,550
+AI Value Score: 87/100
+
+Status: Awaiting User Confirmation
+
+```
+
+---
+
+## 🔮 Future Enhancements
+
+- Real-time flight & hotel APIs  
+- Payment gateway integration  
+- Multi-language support  
+- WhatsApp integration  
+- Multi-agent architecture refinement  
+
+---
+
+## 🌍 Impact
+
+BuildForIndia demonstrates how **Agentic AI systems** can:
+
+- Improve travel decision-making  
+- Increase pricing transparency  
+- Optimize value for users  
+- Simplify complex booking workflows  
+```
